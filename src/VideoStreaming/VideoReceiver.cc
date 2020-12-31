@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -604,7 +604,7 @@ VideoReceiver::start()
 //    }
 
 //#if defined(QGC_GST_STREAMING)
-//    _stop = false;
+//     = false;
 
 //    QString uri = _uri;
 
@@ -762,9 +762,10 @@ VideoReceiver::start()
         return;
     }
 
-     _stop = false;
+
 
 #if defined(QGC_GST_STREAMING)
+    _stop = false;
     qCDebug(VideoReceiverLog) << "start()";
 
     if (_uri.isEmpty()) {
