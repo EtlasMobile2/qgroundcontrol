@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -27,6 +27,9 @@
 #include "Settings/SettingsManager.h"
 #include "Vehicle.h"
 #include "QGCCameraManager.h"
+#ifdef __mobile__
+#include "AndroidInterface.h"
+#endif
 
 QGC_LOGGING_CATEGORY(VideoManagerLog, "VideoManagerLog")
 
@@ -403,7 +406,25 @@ VideoManager::_updateSettings()
     else if (source == VideoSettings::videoSourceTCP)
         _videoReceiver->setUri(QStringLiteral("tcp://%1").arg(_videoSettings->tcpUrl()->rawValue().toString()));
      else if(source == VideoSettings::videoSourceAuto)
-        _videoReceiver->setUri("rtsp://192.168.144.10:8554/H264Video");
+        //_videoReceiver->setUri("rtsp://192.168.144.10:8554/H264Video");
+        _setAutoUriVideo();
+}
+
+void VideoManager::_setAutoUriVideo()
+{
+    int mode = AndroidInterface::getworkMode();
+
+    VideoSettings* _videoSettings = qgcApp()->toolbox()->settingsManager()->videoSettings();
+    QString videoSource = _videoSettings->videoSource()->rawValue().toString();
+    if(videoSource == VideoSettings::videoSourceAuto) {
+        if(mode == 1) {
+            if(_videoReceiver->getUri() != "rtsp://192.168.0.254:8554/H264Video") {
+                _videoReceiver->setUri("rtsp://192.168.0.254:8554/H264Video");
+            }
+        } else {
+            _videoReceiver->setUri("rtsp://192.168.144.10:8554/H264Video");
+        }
+    }
 }
 
 //-----------------------------------------------------------------------------

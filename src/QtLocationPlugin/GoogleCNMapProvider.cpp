@@ -27,7 +27,6 @@ GoogleCNMapProvider::GoogleCNMapProvider(const QString &imageFormat, const quint
     _versionGoogleTerrain   = QStringLiteral("t@131,r@218");
     _versionGoogleHybrid    = QStringLiteral("y");
     _secGoogleWord          = QStringLiteral("Galileo");
-
 }
 
 GoogleCNMapProvider::~GoogleCNMapProvider() {

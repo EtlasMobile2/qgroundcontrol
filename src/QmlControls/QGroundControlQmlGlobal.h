@@ -169,10 +169,15 @@ public:
     Q_INVOKABLE double radiansToDegrees(double radians) { return qRadiansToDegrees(radians); }
 
     Q_INVOKABLE QString showChineseName(QString nm);
-    // Property accesors
+    /// 转换坐标  towgs 是否转换为原始坐标
+    Q_INVOKABLE static QGeoCoordinate translateCoordinate(QGeoCoordinate coordinate, bool towgs = false);
+    /// 转换坐标列表  towgs 是否转换为原始坐标
+    Q_INVOKABLE static QVariantList translateCoordinateList(QVariantList list, bool towgs = false);
+    /// 计算坐标的平均值
+    Q_INVOKABLE QGeoCoordinate averageCoordinate(QGeoCoordinate coordinate1, QGeoCoordinate coordinate2);
 
-    QString                 appName             ()  { return qgcApp()->applicationName(); }
-    LinkManager*            linkManager         ()  { return _linkManager; }
+    QString                 appName              ()  { return qgcApp()->applicationName(); }
+    LinkManager*            linkManager          ()  { return _linkManager; }
     MultiVehicleManager*    multiVehicleManager ()  { return _multiVehicleManager; }
     QGCMapEngineManager*    mapEngineManager    ()  { return _mapEngineManager; }
     QGCPositionManager*     qgcPositionManger   ()  { return _qgcPositionManager; }

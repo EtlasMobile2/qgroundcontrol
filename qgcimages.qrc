@@ -189,5 +189,7 @@
         <file alias="Yield.svg">src/ui/toolbar/Images/Yield.svg</file>
         <file alias="ZoomMinus.svg">src/FlightMap/Images/ZoomMinus.svg</file>
         <file alias="ZoomPlus.svg">src/FlightMap/Images/ZoomPlus.svg</file>
+        <file alias="fullScreen2.svg">resources/fullScreen2.svg</file>
+        <file alias="fullScreen-exit.svg">resources/fullScreen-exit.svg</file>
     </qresource>
 </RCC>

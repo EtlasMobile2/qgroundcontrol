@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * Copyright (C) 2018 Pinecone Inc. All rights reserved.
  *
@@ -52,4 +52,24 @@ void AndroidInterface::triggerMediaScannerScanFile(QString& file_path)
      QAndroidJniObject::callStaticObjectMethod("org/mavlink/qgroundcontrol/QGCActivity", "triggerMediaScannerScanFile",
                                                "(Ljava/lang/String;)V",
                                                path.object<jstring>());
+}
+
+int AndroidInterface::getworkMode()
+{
+    QString mode;
+    QString name = "persist.song.d2r.mode";
+    QString name2 = "true";
+    mode = getSystemProperty(name,name2);
+
+    return mode.toInt();
+}
+
+int AndroidInterface::getMasterSlaveID()
+{
+    QString mode;
+    QString name = "persist.fpv.device.id";
+    QString name2 = "2";
+    mode = getSystemProperty(name,name2);
+
+    return mode.toInt();
 }

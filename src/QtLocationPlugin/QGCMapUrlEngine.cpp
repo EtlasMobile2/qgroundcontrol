@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -63,6 +63,11 @@ UrlFactory::UrlFactory() : _timeout(5 * 1000) {
     //_providersTable["Esri World Street"] = new EsriWorldStreetMapProvider(this);
     //_providersTable["Esri World Satellite"] = new EsriWorldSatelliteMapProvider(this);
     //_providersTable["Esri Terrain"] = new EsriTerrainMapProvider(this);
+    _providersTable["AMap Street Map"] = new AMAPStreetMapProvider(this);
+    _providersTable["AMap Satellite"]  = new AMAPSatelliteMapProvider(this);
+    _providersTable["AMap Terrain"]    = new AMAPTerrainMapProvider(this);
+    _providersTable["AMap Hybrid"]     = new AMAPHybridMapProvider(this);
+    _providersTable["AMap Labels"]     = new AMAPLabelsMapProvider(this);
 
     _providersTable["Mapbox Streets"]      = new MapboxStreetMapProvider(this);
     _providersTable["Mapbox Light"]        = new MapboxLightMapProvider(this);

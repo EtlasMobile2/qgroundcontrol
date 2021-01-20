@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -60,6 +60,8 @@ public:
 #if defined(QGC_GST_STREAMING)
     void                  setVideoSink      (GstElement* videoSink);
 #endif
+    QString               getUri()          {return _uri;}
+
 
 signals:
     void videoRunningChanged                ();
@@ -97,7 +99,6 @@ protected slots:
 
 protected:
 #if defined(QGC_GST_STREAMING)
-
     typedef struct
     {
         GstPad*         teepad;

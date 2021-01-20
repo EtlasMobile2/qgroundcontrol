@@ -434,6 +434,7 @@ contains (DEFINES, QGC_ENABLE_PAIRING) {
 
 HEADERS += \
     src/AndroidInterface.h \
+    src/QmlControls/CoordinateMap.h \
     src/Settings/RfSettings.h \
     src/Settings/WifiSettings.h \
     src/api/QGCCorePlugin.h \
@@ -450,6 +451,7 @@ contains (DEFINES, QGC_ENABLE_PAIRING) {
 
 SOURCES += \
     src/AndroidInterface.cc \
+    src/QmlControls/CoordinateMap.cpp \
     src/Settings/RfSettings.cc \
     src/Settings/WifiSettings.cc \
     src/api/QGCCorePlugin.cc \

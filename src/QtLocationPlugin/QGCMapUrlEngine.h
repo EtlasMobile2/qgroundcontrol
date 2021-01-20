@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -24,6 +24,8 @@
 #include "EsriMapProvider.h"
 #include "MapboxMapProvider.h"
 #include "ElevationMapProvider.h"
+#include "AMapProvider.h"
+
 
 #define MAX_MAP_ZOOM (20.0)
 

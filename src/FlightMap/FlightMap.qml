@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -21,6 +21,7 @@ import QGroundControl.ScreenTools           1.0
 import QGroundControl.MultiVehicleManager   1.0
 import QGroundControl.Vehicle               1.0
 import QGroundControl.QGCPositionManager    1.0
+import QGroundControl.SettingsManager       1.0
 
 Map {
     id: _map
@@ -43,6 +44,8 @@ Map {
     property bool   firstGCSPositionReceived:       false   ///< true: first gcs position update was responded to
     property bool   firstVehiclePositionReceived:   false   ///< true: first vehicle position update was responded to
     property bool   planView:                       false   ///< true: map being using for Plan view, items should be draggable
+    property var    mapProviderName:                QGroundControl.settingsManager.flightMapSettings.mapProvider.value
+    property bool   translatQ:                      mapProviderName === "AMap"
 
     readonly property real  maxZoomLevel: 20
 
@@ -71,6 +74,7 @@ Map {
 
     Component {
         id: specifyMapPositionDialog
+
         EditPositionDialog {
             coordinate:             center
             onCoordinateChanged:    center = coordinate
@@ -84,7 +88,8 @@ Map {
             //-- Only center on gsc if we have no vehicle (and we are supposed to do so)
             var activeVehicleCoordinate = activeVehicle ? activeVehicle.coordinate : QtPositioning.coordinate()
             if(QGroundControl.settingsManager.flyViewSettings.keepMapCenteredOnVehicle.rawValue || !activeVehicleCoordinate.isValid)
-                center = gcsPosition
+                //center = gcsPosition
+                center = translatQ? QGroundControl.translateCoordinate(gcsPosition):gcsPosition
         }
     }
 
@@ -98,6 +103,12 @@ Map {
 
     function updateActiveMapType() {
         var settings =  QGroundControl.settingsManager.flightMapSettings
+        if(settings.mapProvider.value === "AMap") {
+            translatQ = true
+        } else {
+            translatQ = false
+        }
+
         var fullMapName = settings.mapProvider.value + " " + settings.mapType.value
 
         for (var i = 0; i < _map.supportedMapTypes.length; i++) {
@@ -113,6 +124,7 @@ Map {
     Component.onCompleted: {
         updateActiveMapType()
         _possiblyCenterToVehiclePosition()
+        console.log("-----neter mapProviderName :",mapProviderName)
     }
 
     Connections {
@@ -147,4 +159,5 @@ Map {
             }
         }
     }
+
 } // Map

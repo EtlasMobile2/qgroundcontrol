@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -23,6 +23,7 @@ import QGroundControl.FlightMap     1.0
 import QGroundControl.Palette       1.0
 import QGroundControl.ScreenTools   1.0
 import QGroundControl.Vehicle       1.0
+import QGroundControl.SettingsManager 1.0
 
 FlightMap {
     id:                         flightMap
@@ -55,6 +56,8 @@ FlightMap {
     property bool   _disableVehicleTracking:    false
     property bool   _keepVehicleCentered:       mainIsMap ? false : true
     property bool   _pipping:                   false
+    property var    mapProviderName:            QGroundControl.settingsManager.flightMapSettings.mapProvider.value
+    property bool   _translateCoordinate:       mapProviderName === "AMap"
 
     function updateAirspace(reset) {
         if(_airspaceEnabled) {
@@ -102,6 +105,7 @@ FlightMap {
             updateAirspace(false)
         }
     }
+
     onCenterChanged: {
         QGroundControl.flightMapPosition = center
         updateAirspace(false)
@@ -134,7 +138,7 @@ FlightMap {
     property real animatedLatitude
     property real animatedLongitude
 
-    onAnimatedLatitudeChanged: flightMap.center = QtPositioning.coordinate(animatedLatitude, animatedLongitude)
+    onAnimatedLatitudeChanged: flightMap.center =  QtPositioning.coordinate(animatedLatitude, animatedLongitude)
     onAnimatedLongitudeChanged: flightMap.center = QtPositioning.coordinate(animatedLatitude, animatedLongitude)
 
     NumberAnimation on animatedLatitude { id: animateLat; from: _animatedLatitudeStart; to: _animatedLatitudeStop; duration: 1000 }
@@ -165,8 +169,10 @@ FlightMap {
         // We let FlightMap handle first vehicle position
         if (!_keepMapCenteredOnVehicle && firstVehiclePositionReceived && _activeVehicleCoordinate.isValid && !_disableVehicleTracking) {
             if (_keepVehicleCentered) {
-                flightMap.center = _activeVehicleCoordinate
+                //flightMap.center = _activeVehicleCoordinate
+                flightMap.center = _translateCoordinate? QGroundControl.translateCoordinate(_activeVehicleCoordinate):_activeVehicleCoordinate
             } else {
+                flightMap.center = _translateCoordinate? QGroundControl.translateCoordinate(_activeVehicleCoordinate):_activeVehicleCoordinate
                 if (firstVehiclePositionReceived && recenterNeeded()) {
                     animatedMapRecenter(flightMap.center, _activeVehicleCoordinate)
                 }
@@ -174,9 +180,19 @@ FlightMap {
         }
     }
 
+    function updateTransCoordinateState() {
+        var settings =  QGroundControl.settingsManager.flightMapSettings
+        if(settings.mapProvider.value === "AMap") {
+            _translateCoordinate = true
+        } else {
+            _translateCoordinate = false
+        }
+    }
+
     on_ActiveVehicleCoordinateChanged: {
         if (_keepMapCenteredOnVehicle && _activeVehicleCoordinate.isValid && !_disableVehicleTracking) {
-            flightMap.center = _activeVehicleCoordinate
+            //flightMap.center = _activeVehicleCoordinate
+            flightMap.center = _translateCoordinate? QGroundControl.translateCoordinate(_activeVehicleCoordinate):_activeVehicleCoordinate
         }
     }
 
@@ -217,6 +233,17 @@ FlightMap {
         usePlannedHomePosition:     false
         planMasterController:       missionController
         property real leftToolWidth: toolStrip.x + toolStrip.width
+    }
+
+
+    Connections {
+        target:             QGroundControl.settingsManager.flightMapSettings.mapType
+        onRawValueChanged:  updateTransCoordinateState()
+    }
+
+    Connections {
+        target:             QGroundControl.settingsManager.flightMapSettings.mapProvider
+        onRawValueChanged:  updateTransCoordinateState()
     }
 
     // Add trajectory lines to the map

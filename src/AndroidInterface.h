@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * Copyright (C) 2018 Pinecone Inc. All rights reserved.
  *
@@ -24,4 +24,6 @@ public:
     static void setSystemProperty(QString& prop_name, QString& value);
     static QString getSdcardPath();
     static void triggerMediaScannerScanFile(QString& filename);
+    static int getworkMode();
+    static int getMasterSlaveID();
 };

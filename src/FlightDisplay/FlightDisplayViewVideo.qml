@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -33,6 +33,7 @@ Item {
     property var    _camera:            _isCamera ? _dynamicCameras.cameras.get(_curCameraIndex) : null
     property bool   _hasZoom:           _camera && _camera.hasZoom
     property int    _fitMode:           QGroundControl.settingsManager.videoSettings.videoFit.rawValue
+    property bool   _fullscreenFlag:    false
 
     property double _thermalHeightFactor: 0.85 //-- TODO
 
@@ -55,6 +56,7 @@ Item {
             }
         }
     }
+
     Rectangle {
         anchors.fill:   parent
         color:          "black"
@@ -175,13 +177,44 @@ Item {
                 opacity:        _camera ? (_camera.thermalMode === QGCCameraControl.THERMAL_BLEND ? _camera.thermalOpacity / 100 : 1.0) : 0
             }
         }
-        //-- Full screen toggle
-        MouseArea {
-            anchors.fill: parent
-            onDoubleClicked: {
-                QGroundControl.videoManager.fullScreen = !QGroundControl.videoManager.fullScreen
+
+//        //-- Full screen toggle
+//        MouseArea {
+//            anchors.fill: parent
+//            onDoubleClicked: {
+//                QGroundControl.videoManager.fullScreen = !QGroundControl.videoManager.fullScreen
+//            }
+//        }
+
+
+        Rectangle {
+            width:          ScreenTools.defaultFontPixelWidth * 4.0
+            height:         ScreenTools.defaultFontPixelWidth * 4.0
+            color:          "transparent"
+            visible:        mainIsMap ?  false : true
+
+            anchors.right:      parent.right
+            anchors.bottom:     parent.bottom
+            anchors.margins:    ScreenTools.defaultFontPixelHeight * 0.6
+
+            QGCColoredImage {
+                id:                     backIcon
+                anchors.fill:           parent
+                fillMode:               Image.PreserveAspectFit
+                mipmap:                 true
+                color:                  "transparent"
+                source:                 _fullscreenFlag ? "/qmlimages/fullScreen2.svg":"/qmlimages/fullScreen-exit.svg"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    _fullscreenFlag = !_fullscreenFlag;
+                    QGroundControl.videoManager.fullScreen = !QGroundControl.videoManager.fullScreen
+                }
             }
         }
+
         //-- Zoom
         PinchArea {
             id:             pinchZoom

@@ -17,6 +17,8 @@
 #include <QLineF>
 #include <QPointF>
 
+#include "CoordinateMap.h"
+
 static const char* kQmlGlobalKeyName = "QGCQml";
 
 const char* QGroundControlQmlGlobal::_flightMapPositionSettingsGroup =          "FlightMapPosition";
@@ -243,6 +245,47 @@ QString QGroundControlQmlGlobal::showChineseName(QString nm)
     QString name;
     name = _enToCNNames[nm];
     return name;
+}
+
+QGeoCoordinate QGroundControlQmlGlobal::translateCoordinate(QGeoCoordinate coordinate, bool towgs)
+{
+    CoordinateMap coordinateMap;
+
+    if(towgs) {
+        //火星坐标转换为原始坐标
+        return coordinateMap.gcj2wgs(coordinate);
+    } else {
+        //原始坐标转化为火星坐标
+        //qDebug() << " translateCoordinate mars";
+        return coordinateMap.wgs2gcj(coordinate);
+    }
+}
+
+QVariantList QGroundControlQmlGlobal::translateCoordinateList(QVariantList list, bool towgs)
+{
+    CoordinateMap coordinateMap;
+    QVariantList tmpList;
+    for (int i=0; i<list.count(); i++) {
+        QGeoCoordinate coord = list[i].value<QGeoCoordinate>();
+        if(towgs) {
+            //火星坐标转换为原始坐标
+            tmpList << QVariant::fromValue(coordinateMap.gcj2wgs(coord));
+        } else {
+            //原始坐标转化为火星坐标
+            //qDebug() << " translateCoordinate mars2";
+            tmpList << QVariant::fromValue(coordinateMap.wgs2gcj(coord));
+        }
+    }
+    return tmpList;
+}
+
+QGeoCoordinate QGroundControlQmlGlobal::averageCoordinate(QGeoCoordinate coordinate1, QGeoCoordinate coordinate2)
+{
+    QGeoCoordinate coordinate;
+    coordinate.setAltitude((coordinate1.altitude() + coordinate2.altitude())/2);
+    coordinate.setLongitude((coordinate1.longitude() + coordinate2.longitude())/2);
+    coordinate.setLatitude((coordinate1.latitude() + coordinate2.latitude())/2);
+    return coordinate;
 }
 
 void QGroundControlQmlGlobal::setSkipSetupPage(bool skip)

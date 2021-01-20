@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -111,6 +111,7 @@ protected:
 #endif
     void _initVideo                 ();
     void _updateSettings            ();
+    void _setAutoUriVideo           ();
 
 protected:
     SubtitleWriter  _subtitleWriter;
