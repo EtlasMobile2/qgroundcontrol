@@ -1,4 +1,4 @@
-[
+﻿[
 {
     "name":             "offlineEditingFirmwareType",
     "shortDescription": "Offline editing firmware type",
@@ -197,7 +197,21 @@
     "shortDescription": "Access token to Mapbox maps",
     "longDescription":  "Your personal access token for Mapbox maps",
     "type":             "string",
-    "defaultValue":     ""
+    "defaultValue":     "pk.eyJ1Ijoieml5dTYwNjAiLCJhIjoiY2trZG9nejkxMHVncTJxa3hwNnVrOWw4ZyJ9.6LbRDbk7rCvF4z12Qm0nAA"
+},
+{
+    "name":             "mapboxAccount",
+    "shortDesc":        "Account name for Mapbox maps",
+    "longDesc":         "Your personal account name for Mapbox maps",
+    "type":             "string",
+    "default":          "ziyu6060"
+},
+{
+    "name":             "mapboxStyle",
+    "shortDesc":        "Map style ID",
+    "longDesc":         "Map design style ID for Mapbox maps",
+    "type":             "string",
+    "default":          "ckkdo8wra0h7r17qz744s34u8"
 },
 {
     "name":             "esriToken",

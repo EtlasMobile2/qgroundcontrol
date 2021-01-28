@@ -413,16 +413,22 @@ VideoManager::_updateSettings()
 void VideoManager::_setAutoUriVideo()
 {
     int mode = AndroidInterface::getworkMode();
-
+    int master = AndroidInterface::getMasterSlaveID();
     VideoSettings* _videoSettings = qgcApp()->toolbox()->settingsManager()->videoSettings();
     QString videoSource = _videoSettings->videoSource()->rawValue().toString();
     if(videoSource == VideoSettings::videoSourceAuto) {
         if(mode == 1) {
-            if(_videoReceiver->getUri() != "rtsp://192.168.0.254:8554/H264Video") {
-                _videoReceiver->setUri("rtsp://192.168.0.254:8554/H264Video");
+            if(master == 2) {
+                if(_videoReceiver->getUri() != "rtsp://192.168.0.254:8554/H264VideoSub") {
+                    _videoReceiver->setUri("rtsp://192.168.0.254:8554/H264VideoSub");
+                }
+            } else {
+                if(_videoReceiver->getUri() != "rtsp://192.168.0.254:8554/H264Video") {
+                    _videoReceiver->setUri("rtsp://192.168.0.254:8554/H264Video");
+                }
             }
         } else {
-            _videoReceiver->setUri("rtsp://192.168.144.10:8554/H264Video");
+            _videoReceiver->setUri("rtsp://192.168.0.10:8554/H264Video");
         }
     }
 }

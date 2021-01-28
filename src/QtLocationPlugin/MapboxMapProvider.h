@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -23,7 +23,7 @@ public:
 protected:
     QString _getURL(const int x, const int y, const int zoom, QNetworkAccessManager* networkManager) override;
 
-    QString _mapboxName;
+    QString _mapboxName = "mapbox.satellite";
 };
 
 class MapboxStreetMapProvider : public MapboxMapProvider {
@@ -149,5 +149,14 @@ class MapboxHighContrastMapProvider : public MapboxMapProvider {
 public:
     MapboxHighContrastMapProvider(QObject* parent = nullptr)
         : MapboxMapProvider(QStringLiteral("mapbox.high-contrast"), AVERAGE_TILE_SIZE,
+                            QGeoMapType::CustomMap, parent) {}
+};
+
+class MapboxCustomMapProvider : public MapboxMapProvider {
+    Q_OBJECT
+
+public:
+    MapboxCustomMapProvider(QObject* parent = nullptr)
+        : MapboxMapProvider(QStringLiteral("mapbox.custom"), AVERAGE_TILE_SIZE,
                             QGeoMapType::CustomMap, parent) {}
 };

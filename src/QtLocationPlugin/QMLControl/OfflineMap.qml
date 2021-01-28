@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  *
  * (c) 2009-2020 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
@@ -37,6 +37,8 @@ Item {
     property var    _fmSettings:        _settingsManager ? _settingsManager.flightMapSettings : null
     property Fact   _mapboxFact:        _settingsManager ? _settingsManager.appSettings.mapboxToken : null
     property Fact   _esriFact:          _settingsManager ? _settingsManager.appSettings.esriToken : null
+    property Fact   _mapboxAccountFact: _settingsManager ? _settingsManager.appSettings.mapboxAccount : null
+    property Fact   _mapboxStyleFact:   _settingsManager ? _settingsManager.appSettings.mapboxStyle : null
 
     property string mapType:            _fmSettings ? (_fmSettings.mapProvider.value + " " + _fmSettings.mapType.value) : ""
     property bool   isMapInteractive:   false
@@ -314,6 +316,39 @@ Item {
                         wrapMode:       Text.WordWrap
                         text:           qsTr("To enable Mapbox maps, enter your access token.")
                         visible:        _mapboxFact ? _mapboxFact.visible : false
+                        font.pointSize: _adjustableFontPointSize
+                    }
+                    Item { width: 1; height: 1; visible: _mapboxAccountFact ? _mapboxAccountFact.visible : false }
+                    QGCLabel { text: qsTr("Mapbox User Name"); visible: _mapboxAccountFact ? _mapboxAccountFact.visible : false }
+                    FactTextField {
+                        fact:               _mapboxAccountFact
+                        visible:            _mapboxAccountFact ? _mapboxAccountFact.visible : false
+                        maximumLength:      256
+                        width:              ScreenTools.defaultFontPixelWidth * 30
+                    }
+                    QGCLabel {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+                        wrapMode:       Text.WordWrap
+                        text:           qsTr("To enable custom Mapbox styles, enter your account name.")
+                        visible:        _mapboxAccountFact ? _mapboxAccountFact.visible : false
+                        font.pointSize: _adjustableFontPointSize
+                    }
+
+                    Item { width: 1; height: 1; visible: _mapboxStyleFact ? _mapboxStyleFact.visible : false }
+                    QGCLabel { text: qsTr("Mapbox Style ID"); visible: _mapboxStyleFact ? _mapboxStyleFact.visible : false }
+                    FactTextField {
+                        fact:               _mapboxStyleFact
+                        visible:            _mapboxStyleFact ? _mapboxStyleFact.visible : false
+                        maximumLength:      256
+                        width:              ScreenTools.defaultFontPixelWidth * 30
+                    }
+                    QGCLabel {
+                        anchors.left:   parent.left
+                        anchors.right:  parent.right
+                        wrapMode:       Text.WordWrap
+                        text:           qsTr("To enable custom Mapbox styles, enter your style ID.")
+                        visible:        _mapboxStyleFact ? _mapboxStyleFact.visible : false
                         font.pointSize: _adjustableFontPointSize
                     }
 

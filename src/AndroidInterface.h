@@ -24,6 +24,6 @@ public:
     static void setSystemProperty(QString& prop_name, QString& value);
     static QString getSdcardPath();
     static void triggerMediaScannerScanFile(QString& filename);
-    static int getworkMode();
-    static int getMasterSlaveID();
+    static int getworkMode();        // 模式获取 1 一对二 0 一对一
+    static int getMasterSlaveID();  // 主遥控器
 };
